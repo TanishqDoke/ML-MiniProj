@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import "./App.css"; // Importing the CSS file
 
 function App() {
   const [userInput, setUserInput] = useState("");
@@ -32,9 +33,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300 p-6">
+    <div className="app-container">
       <motion.h1
-        className="text-4xl font-bold mb-6 text-blue-900 drop-shadow-lg"
+        className="app-title"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -43,7 +44,7 @@ function App() {
       </motion.h1>
 
       <motion.textarea
-        className="w-full max-w-lg p-4 rounded-md border border-blue-400 shadow-md focus:ring-2 focus:ring-blue-600 transition-all mb-4 text-lg"
+        className="app-textarea"
         rows={4}
         placeholder="Type your thoughts here..."
         value={userInput}
@@ -54,7 +55,7 @@ function App() {
       />
 
       <motion.button
-        className="bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-800 transition-transform transform hover:scale-105"
+        className="app-button"
         onClick={handleSubmit}
         disabled={loading}
         whileTap={{ scale: 0.95 }}
@@ -64,24 +65,25 @@ function App() {
 
       {prediction && (
         <motion.div
-          className="mt-6 text-xl font-semibold p-4 rounded-lg shadow-md"
+          className={`app-prediction ${
+            prediction.toLowerCase().includes("positive")
+              ? "positive"
+              : prediction.toLowerCase().includes("negative")
+              ? "negative"
+              : "neutral"
+          }`}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          style={{
-            backgroundColor: prediction.toLowerCase().includes("positive")
-              ? "#D1FADF"
-              : prediction.toLowerCase().includes("negative")
-              ? "#FAD1D1"
-              : "#FFF5D1",
-            color: prediction.toLowerCase().includes("positive")
-              ? "#065F46"
-              : prediction.toLowerCase().includes("negative")
-              ? "#7F1D1D"
-              : "#92400E",
-          }}
         >
-          <span className="text-gray-700">Prediction: </span>
+          <span className="emoji">
+            {prediction.toLowerCase().includes("positive")
+              ? "😊"
+              : prediction.toLowerCase().includes("negative")
+              ? "😔"
+              : "😐"}
+          </span>
+          <span>Prediction: </span>
           <strong>{prediction}</strong>
         </motion.div>
       )}
