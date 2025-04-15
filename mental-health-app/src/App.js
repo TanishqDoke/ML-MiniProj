@@ -21,12 +21,8 @@ function App() {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      console.log("API Response:", response.data);
-
       const sentiment = response.data.sentiment;
-      const capitalized =
-        sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
-      setPrediction(capitalized);
+      setPrediction(sentiment.charAt(0).toUpperCase() + sentiment.slice(1)); // Capitalize
     } catch (error) {
       console.error("Error:", error);
       setPrediction("Error occurred. Check API status.");
