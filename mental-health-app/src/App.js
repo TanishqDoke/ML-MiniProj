@@ -21,7 +21,12 @@ function App() {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      setPrediction(response.data.prediction);
+      console.log("API Response:", response.data);
+
+      const sentiment = response.data.sentiment;
+      const capitalized =
+        sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
+      setPrediction(capitalized);
     } catch (error) {
       console.error("Error:", error);
       setPrediction("Error occurred. Check API status.");
@@ -32,7 +37,6 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300 p-6">
-      {/* App Title */}
       <motion.h1
         className="text-4xl font-bold mb-6 text-blue-900 drop-shadow-lg"
         initial={{ opacity: 0, y: -20 }}
@@ -42,7 +46,6 @@ function App() {
         🧠 Mental Health Sentiment Analyzer
       </motion.h1>
 
-      {/* Input Box */}
       <motion.textarea
         className="w-full max-w-lg p-4 rounded-md border border-blue-400 shadow-md focus:ring-2 focus:ring-blue-600 transition-all mb-4 text-lg"
         rows={4}
@@ -54,7 +57,6 @@ function App() {
         transition={{ duration: 0.5 }}
       />
 
-      {/* Submit Button */}
       <motion.button
         className="bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-800 transition-transform transform hover:scale-105"
         onClick={handleSubmit}
@@ -64,7 +66,6 @@ function App() {
         {loading ? "🔍 Analyzing..." : "🚀 Submit"}
       </motion.button>
 
-      {/* Prediction Output */}
       {prediction && (
         <motion.div
           className="mt-6 text-xl font-semibold p-4 rounded-lg shadow-md"
@@ -72,14 +73,14 @@ function App() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           style={{
-            backgroundColor: prediction.includes("Positive")
+            backgroundColor: prediction.toLowerCase().includes("positive")
               ? "#D1FADF"
-              : prediction.includes("Negative")
+              : prediction.toLowerCase().includes("negative")
               ? "#FAD1D1"
               : "#FFF5D1",
-            color: prediction.includes("Positive")
+            color: prediction.toLowerCase().includes("positive")
               ? "#065F46"
-              : prediction.includes("Negative")
+              : prediction.toLowerCase().includes("negative")
               ? "#7F1D1D"
               : "#92400E",
           }}
