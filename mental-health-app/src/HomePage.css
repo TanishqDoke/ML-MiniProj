@@ -1,0 +1,53 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #94c6e7, #ffffff, #afbdec);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.home-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 1rem;
+}
+
+.home-description {
+  font-size: 1.2rem;
+  color: #374151;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.home-button {
+  background: linear-gradient(to right, #3b82f6, #6366f1);
+  color: white;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+  width: 200px;  /* Set a fixed width */
+  max-width: 100%; /* Ensure it doesn't exceed container width */
+  margin: 0 auto; /* Center the button */
+}
+
+
+.home-button:hover {
+  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
+  transform: scale(1.05);
+}
+
+.home-footer {
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
