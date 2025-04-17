@@ -18,19 +18,24 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json()
-    text = data.get("text", "")
+    try:
+        data = request.get_json()
+        print("Received data:", data)
 
-    if not text:
-        return jsonify({"error": "No text provided"}), 400
+        text = data.get("text", "")
+        if not text:
+            return jsonify({"error": "No text provided"}), 400
 
-    # Transform input text
-    text_vectorized = vectorizer.transform([text])
+        text_vectorized = vectorizer.transform([text])
+        prediction = model.predict(text_vectorized)[0]
+
+        return jsonify({"sentiment": prediction})
     
-    # Predict sentiment
-    prediction = model.predict(text_vectorized)[0]
-
-    return jsonify({"sentiment": prediction})
+    except Exception as e:
+        print("❌ Error in prediction:", e)
+        return jsonify({"error": "Internal server error"}), 500
+import os
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render sets this automatically
+    app.run(host="0.0.0.0", port=port)
