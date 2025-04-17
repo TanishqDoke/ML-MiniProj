@@ -1,13 +1,33 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./LoginPage.css";
 
 const LoginPage = () => {
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
 
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+
   const handleSkipLogin = () => {
-    navigate("/analyze"); // Redirect to sentiment analyzer page
+    if (role === "user") {
+      navigate("/home");
+    } else {
+      navigate("/analyze");
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevents page reload
+    if (role === "expert") {
+      navigate("/edash");
+    } else if (role === "user") {
+      navigate("/analyze");
+    } else {
+      alert("Please select a role to continue.");
+    }
   };
 
   return (
@@ -20,7 +40,7 @@ const LoginPage = () => {
       >
         <h2 className="login-header">🧠 Mental Health Sentiment Analyzer</h2>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="role"
@@ -32,6 +52,8 @@ const LoginPage = () => {
               id="role"
               className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 transition"
               required
+              value={role}
+              onChange={handleRoleChange}
             >
               <option value="">Select Role</option>
               <option value="user">User</option>
@@ -89,6 +111,13 @@ const LoginPage = () => {
           >
             Skip Login
           </span>
+        </p>
+
+        <p className="mt-2 text-center text-gray-600 text-sm">
+          Don’t have an account?{" "}
+          <Link to="/register" className="text-blue-500 underline">
+            Register here
+          </Link>
         </p>
       </motion.div>
     </div>
