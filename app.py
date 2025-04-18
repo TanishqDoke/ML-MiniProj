@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # ✅ Add this
+from flask_cors import CORS
 import joblib
 
 # Load model and vectorizer
@@ -9,8 +9,11 @@ vectorizer = joblib.load("vectorizer.pkl")
 # Initialize Flask app
 app = Flask(__name__)
 
-# ✅ Enable CORS
-CORS(app, origins=["http://localhost:3000", "https://ml-miniproj.onrender.com"])
+# ✅ Add your deployed frontend URL
+CORS(app, origins=[
+    "http://localhost:3000",  # local testing
+    "https://mental-health-analyzer-bfh2.onrender.com"  # deployed frontend
+])
 
 @app.route("/")
 def home():
@@ -18,24 +21,16 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    try:
-        data = request.get_json()
-        print("Received data:", data)
+    data = request.get_json()
+    text = data.get("text", "")
 
-        text = data.get("text", "")
-        if not text:
-            return jsonify({"error": "No text provided"}), 400
+    if not text:
+        return jsonify({"error": "No text provided"}), 400
 
-        text_vectorized = vectorizer.transform([text])
-        prediction = model.predict(text_vectorized)[0]
+    text_vectorized = vectorizer.transform([text])
+    prediction = model.predict(text_vectorized)[0]
 
-        return jsonify({"sentiment": prediction})
-    
-    except Exception as e:
-        print("❌ Error in prediction:", e)
-        return jsonify({"error": "Internal server error"}), 500
-import os
+    return jsonify({"sentiment": prediction})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Render sets this automatically
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
