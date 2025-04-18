@@ -23,7 +23,8 @@ function SentimentAnalyzer() {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      const sentiment = response.data.sentiment;
+      const sentiment = response.data.sentiment || response.data.prediction;
+
       setPrediction(sentiment.charAt(0).toUpperCase() + sentiment.slice(1));
     } catch (error) {
       console.error("Error:", error);
