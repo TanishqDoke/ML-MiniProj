@@ -36,19 +36,18 @@
 #     app.run(debug=True)
 
 
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from dotenv import load_dotenv
 import os
 import requests
 
-# Load environment variables from .env
-load_dotenv()
+# Get GROQ_API_KEY directly from environment variable (Render handles this)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # Flask setup
 app = Flask(__name__)
+
+# CORS for local and deployed frontend
 CORS(app, origins=[
     "http://localhost:3000",
     "https://mental-health-analyzer-bfh2.onrender.com"
@@ -67,7 +66,7 @@ def predict():
         return jsonify({"error": "No text provided"}), 400
 
     try:
-        # Call Groq API (LLAMA3 or MIXTRAL)
+        # Call Groq API for classification
         response = requests.post(
             "https://api.groq.com/openai/v1/chat/completions",
             headers={
@@ -79,7 +78,12 @@ def predict():
                 "messages": [
                     {
                         "role": "system",
-                        "content": "You are a mental health assistant. Classify the sentiment of the following text as one of: happy, neutral, sad, very sad, or suicidal. Respond ONLY with the label."
+                        "content": (
+                            "You are a mental health assistant. "
+                            "Classify the sentiment of the following text as one of: "
+                            "happy, neutral, sad, very sad, or suicidal. "
+                            "Respond ONLY with the label."
+                        )
                     },
                     {
                         "role": "user",
@@ -90,10 +94,12 @@ def predict():
         )
 
         groq_data = response.json()
+
+        # Extract sentiment from Groq's response
         sentiment = groq_data["choices"][0]["message"]["content"].strip()
 
         return jsonify({"sentiment": sentiment})
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
