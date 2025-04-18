@@ -81,7 +81,7 @@ def predict():
                         "content": (
                             "You are a mental health assistant. "
                             "Classify the sentiment of the following text as one of: "
-                            "happy, neutral, sad, very sad, or suicidal. "
+                            "very happy,happy, angry, neutral, sad, very sad, or suicidal. "
                             "Respond ONLY with the label."
                         )
                     },
