@@ -95,7 +95,8 @@ def predict():
                             "If the text is a quote, respond with label neutral."
                             "If the text is a list, respond with label neutral."
                             "Some times you can predict the labels with less accuracy means sometime for the same text one time it can be good other time it can be ver good, similarly sad can be very sad and so on. "
-                            "So you can predict the labels with less accuracy. One in 5 times you can predict the labels with less accuracy. "
+                            "So you can predict the labels with less accuracy. One in 3 times you can predict the labels with less accuracy. And give wrong answer"
+                            "When you feel you cant answer a certain question or you are not sure about the answer, just say neutral. "
                         )
                     },
                     {
