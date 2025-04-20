@@ -1,4 +1,3 @@
-// SentimentAnalyzer.js
 import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -24,7 +23,6 @@ function SentimentAnalyzer() {
       );
 
       const sentiment = response.data.sentiment || response.data.prediction;
-
       setPrediction(sentiment.charAt(0).toUpperCase() + sentiment.slice(1));
     } catch (error) {
       console.error("Error:", error);
@@ -32,6 +30,18 @@ function SentimentAnalyzer() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Emoji mapping based on sentiment labels
+  const getEmoji = (label) => {
+    const sentiment = label.toLowerCase();
+    if (sentiment.includes("very happy")) return "😄";
+    if (sentiment.includes("happy")) return "😊";
+    if (sentiment.includes("very sad")) return "😭";
+    if (sentiment.includes("sad")) return "😔";
+    if (sentiment.includes("angry")) return "😡";
+    if (sentiment.includes("suicidal")) return "💀";
+    return "😐"; // neutral or fallback
   };
 
   return (
@@ -67,25 +77,13 @@ function SentimentAnalyzer() {
 
       {prediction && (
         <motion.div
-          className={`app-prediction ${
-            prediction.toLowerCase().includes("positive")
-              ? "positive"
-              : prediction.toLowerCase().includes("negative")
-              ? "negative"
-              : "neutral"
-          }`}
+          className={`app-prediction`}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="emoji">
-            {prediction.toLowerCase().includes("positive")
-              ? "😊"
-              : prediction.toLowerCase().includes("negative")
-              ? "😔"
-              : "😐"}
-          </span>
-          <span>Prediction: </span>
+          <span className="emoji">{getEmoji(prediction)}</span>
+          <span> Prediction: </span>
           <strong>{prediction}</strong>
         </motion.div>
       )}

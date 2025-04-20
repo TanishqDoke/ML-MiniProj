@@ -83,6 +83,7 @@ def predict():
                             "Classify the sentiment of the following text as one of: "
                             "very happy,happy, angry, neutral, sad, very sad, or suicidal. "
                             "Respond ONLY with the label."
+                            "If you are not able to classify a particular emotion just send label neutral."
                         )
                     },
                     {
