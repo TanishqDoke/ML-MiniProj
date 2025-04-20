@@ -145,3 +145,35 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(96, 165, 250, 0.5);
 }
+
+.model-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.model-button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 2rem;
+  background-color: #f1f1f1;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: 500;
+}
+
+.model-button:hover {
+  background-color: #e0e0e0;
+}
+
+.model-button.active {
+  background-color: #5c7cfa;
+  color: white;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}

@@ -8,7 +8,13 @@ function SentimentAnalyzer() {
   const [userInput, setUserInput] = useState("");
   const [prediction, setPrediction] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState(""); // New state
   const navigate = useNavigate();
+
+  const handleModelSelect = (model) => {
+    setSelectedModel(model);
+    setPrediction(""); // clear previous prediction
+  };
 
   const handleSubmit = async () => {
     if (!userInput.trim()) {
@@ -16,12 +22,22 @@ function SentimentAnalyzer() {
       return;
     }
 
+    if (!selectedModel) {
+      setPrediction("Please select a model first.");
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await axios.post(
         "https://ml-miniproj.onrender.com/predict",
-        { text: userInput },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          text: userInput,
+          model: selectedModel,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       );
 
       const sentiment = response.data.sentiment || response.data.prediction;
@@ -58,8 +74,7 @@ function SentimentAnalyzer() {
 
   return (
     <div className="app-container">
-      {/* Back Button */}
-      <button className="back-button" onClick={() => navigate("/")}>
+      <button className="back-button" onClick={() => navigate("/login")}>
         ← Back
       </button>
 
@@ -71,6 +86,32 @@ function SentimentAnalyzer() {
       >
         🧠 Mental Health Sentiment Analyzer
       </motion.h1>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "1rem",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <button
+          className={`model-button ${
+            selectedModel === "logistic" ? "active" : ""
+          }`}
+          onClick={() => handleModelSelect("logistic")}
+        >
+          Logistic Regression
+        </button>
+        <button
+          className={`model-button ${
+            selectedModel === "randomforest" ? "active" : ""
+          }`}
+          onClick={() => handleModelSelect("randomforest")}
+        >
+          Random Forest
+        </button>
+      </div>
 
       <motion.textarea
         className="app-textarea"
