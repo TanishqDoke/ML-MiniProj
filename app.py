@@ -84,6 +84,18 @@ def predict():
                             "very happy,happy, angry, neutral, sad, very sad, or suicidal. "
                             "Respond ONLY with the label."
                             "If you are not able to classify a particular emotion just send label neutral."
+                            "If the text is not in English, respond with label neutral."
+                            "If the text is not related to mental health, respond with label neutral."
+                            "If the text is too short to classify, respond with label neutral."
+                            "If the text is too long to classify, respond with label neutral."
+                            "If the text is not a single sentence, respond with label neutral."
+                            "If the text is a question, respond with label neutral."
+                            "If the text is a command, respond with label neutral."
+                            "If the text is a statement, respond with label neutral."
+                            "If the text is a quote, respond with label neutral."
+                            "If the text is a list, respond with label neutral."
+                            "Some times you can predict the labels with less accuracy means sometime for the same text one time it can be good other time it can be ver good, similarly sad can be very sad and so on. "
+                            "So you can predict the labels with less accuracy. One in 5 times you can predict the labels with less accuracy. "
                         )
                     },
                     {
