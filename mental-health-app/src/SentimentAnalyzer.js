@@ -32,16 +32,27 @@ function SentimentAnalyzer() {
     }
   };
 
-  // Emoji mapping based on sentiment labels
+  // Emoji & background color logic
   const getEmoji = (label) => {
-    const sentiment = label.toLowerCase();
-    if (sentiment.includes("very happy")) return "😄";
-    if (sentiment.includes("happy")) return "😊";
-    if (sentiment.includes("very sad")) return "😭";
-    if (sentiment.includes("sad")) return "😔";
-    if (sentiment.includes("angry")) return "😡";
-    if (sentiment.includes("suicidal")) return "💀";
-    return "😐"; // neutral or fallback
+    const l = label.toLowerCase();
+    if (l.includes("very happy")) return "😄";
+    if (l.includes("happy")) return "😊";
+    if (l.includes("very sad")) return "😭";
+    if (l.includes("sad")) return "😔";
+    if (l.includes("angry")) return "😡";
+    if (l.includes("suicidal")) return "💀";
+    return "😐";
+  };
+
+  const getBackgroundColor = (label) => {
+    const l = label.toLowerCase();
+    if (l.includes("very happy")) return "#d1f5d3"; // bright green
+    if (l.includes("happy")) return "#e6f9e8"; // soft green
+    if (l.includes("angry")) return "#fddede"; // soft red
+    if (l.includes("very sad")) return "#cfd9ed"; // deep blue
+    if (l.includes("sad")) return "#e5edfb"; // soft blue
+    if (l.includes("suicidal")) return "#e0e0e0"; // dark gray
+    return "#fff8dc"; // neutral beige
   };
 
   return (
@@ -77,13 +88,28 @@ function SentimentAnalyzer() {
 
       {prediction && (
         <motion.div
-          className={`app-prediction`}
+          className="app-prediction"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          style={{
+            backgroundColor: getBackgroundColor(prediction),
+            color: "#111",
+            borderRadius: "1rem",
+            padding: "1rem 1.5rem",
+            marginTop: "1.5rem",
+            fontSize: "1.25rem",
+            fontWeight: "600",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.6rem",
+          }}
         >
-          <span className="emoji">{getEmoji(prediction)}</span>
-          <span> Prediction: </span>
+          <span className="emoji" style={{ fontSize: "1.8rem" }}>
+            {getEmoji(prediction)}
+          </span>
+          <span>Prediction: </span>
           <strong>{prediction}</strong>
         </motion.div>
       )}
