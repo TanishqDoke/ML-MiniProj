@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 function SentimentAnalyzer() {
   const [userInput, setUserInput] = useState("");
   const [prediction, setPrediction] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (!userInput.trim()) {
@@ -32,7 +34,6 @@ function SentimentAnalyzer() {
     }
   };
 
-  // Emoji & background color logic
   const getEmoji = (label) => {
     const l = label.toLowerCase();
     if (l.includes("very happy")) return "😄";
@@ -46,17 +47,22 @@ function SentimentAnalyzer() {
 
   const getBackgroundColor = (label) => {
     const l = label.toLowerCase();
-    if (l.includes("very happy")) return "#d1f5d3"; // bright green
-    if (l.includes("happy")) return "#e6f9e8"; // soft green
-    if (l.includes("angry")) return "#fddede"; // soft red
-    if (l.includes("very sad")) return "#cfd9ed"; // deep blue
-    if (l.includes("sad")) return "#e5edfb"; // soft blue
-    if (l.includes("suicidal")) return "#e0e0e0"; // dark gray
-    return "#fff8dc"; // neutral beige
+    if (l.includes("very happy")) return "#d1f5d3";
+    if (l.includes("happy")) return "#e6f9e8";
+    if (l.includes("angry")) return "#fddede";
+    if (l.includes("very sad")) return "#cfd9ed";
+    if (l.includes("sad")) return "#e5edfb";
+    if (l.includes("suicidal")) return "#e0e0e0";
+    return "#fff8dc";
   };
 
   return (
     <div className="app-container">
+      {/* Back Button */}
+      <button className="back-button" onClick={() => navigate("/")}>
+        ← Back
+      </button>
+
       <motion.h1
         className="app-title"
         initial={{ opacity: 0, y: -20 }}
